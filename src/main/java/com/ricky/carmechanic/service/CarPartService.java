@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.ricky.carmechanic.domain.CarpartInfo;
 import com.ricky.carmechanic.domain.CarpartUsage;
 import com.ricky.carmechanic.domain.example.CarpartInfoExample;
+import com.ricky.carmechanic.domain.example.CarpartUsageExample;
 import com.ricky.carmechanic.mapper.CarpartInfoMapper;
 import com.ricky.carmechanic.mapper.CarpartUsageMapper;
 import com.ricky.carmechanic.util.result.Result;
@@ -79,6 +80,50 @@ public class CarPartService {
             return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
         }
         result.setData(carpartInfo);
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
+    }
+
+    /**
+     * handle the delete of car part info
+     * @param carPartId
+     * @return RESULT_DATA_NONE, INTERFACE_INNER_INVOKE_ERROR, SUCCESS
+     */
+    Result deleteCarPartInfo(Integer carPartId) {
+        Result result = new Result();
+        CarpartInfo carpartInfo;
+        try {
+            carpartInfo = carpartInfoMapper.selectByPrimaryKey(carPartId);
+            if(carpartInfo == null) return Result.failure(ResultCode.RESULT_DATA_NONE);
+            carpartInfoMapper.deleteByPrimaryKey(carPartId);
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+        }
+        result.setData(carpartInfo);
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
+    }
+
+    /**
+     * handle the query of car part usage
+     * @param repairId
+     * @return RESULT_DATA_NONE, INTERFACE_INNER_INVOKE_ERROR, SUCCESS(usageList)
+     */
+    Result getCarPartUsage(Integer repairId) {
+        Result result = new Result();
+        CarpartUsageExample example = new CarpartUsageExample();
+        CarpartUsageExample.Criteria criteria = example.createCriteria();
+        criteria.andRepairIdEqualTo(repairId);
+        List<CarpartUsage> usageList = new ArrayList();
+        try {
+            usageList = carpartUsageMapper.selectByExample(example);
+            if (usageList == null) return Result.failure(ResultCode.RESULT_DATA_NONE);
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+        }
+        result.setData(usageList);
         result.setResultCode(ResultCode.SUCCESS);
         return result;
     }
