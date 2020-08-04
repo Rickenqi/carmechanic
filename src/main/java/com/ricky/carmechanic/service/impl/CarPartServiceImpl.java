@@ -17,9 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-@Transactional(rollbackFor = DataAccessException.class)
-public class CarPartService {
+
+public class CarPartServiceImpl implements com.ricky.carmechanic.service.CarPartService {
 
     @Autowired
     CarpartUsageMapper carpartUsageMapper;
@@ -27,14 +26,8 @@ public class CarPartService {
     @Autowired
     CarpartInfoMapper carpartInfoMapper;
 
-    /**
-     * handling the query of car part with optional params and divided pages
-     * @param carpartInfo
-     * @param pageNum
-     * @param pageSize
-     * @return RESULT_DATA_NONE, INTERFACE_INNER_INVOKE_ERROR, SUCCESS(CarPartList)
-     */
-    Result getCarPartInfo(CarpartInfo carpartInfo, int pageNum, int pageSize) {
+
+    public Result getCarPartInfo(CarpartInfo carpartInfo, int pageNum, int pageSize) {
         Result result = new Result();
         List<CarpartInfo> CarPartList = new ArrayList();
         CarpartInfoExample example = new CarpartInfoExample();
@@ -63,12 +56,7 @@ public class CarPartService {
         return result;
     }
 
-    /**
-     * handling the update of car part, either insert or update
-     * @param carpartInfo
-     * @return INTERFACE_INNER_INVOKE_ERROR, SUCCESS(carpartInfo)
-     */
-    Result updateCarPartInfo(CarpartInfo carpartInfo) {
+    public Result updateCarPartInfo(CarpartInfo carpartInfo) {
         Result result = new Result();
         CarpartInfo info;
         try {
@@ -84,12 +72,7 @@ public class CarPartService {
         return result;
     }
 
-    /**
-     * handle the delete of car part info
-     * @param carPartId
-     * @return RESULT_DATA_NONE, INTERFACE_INNER_INVOKE_ERROR, SUCCESS
-     */
-    Result deleteCarPartInfo(Integer carPartId) {
+    public Result deleteCarPartInfo(Integer carPartId) {
         Result result = new Result();
         CarpartInfo carpartInfo;
         try {
@@ -105,12 +88,7 @@ public class CarPartService {
         return result;
     }
 
-    /**
-     * handle the query of car part usage
-     * @param repairId
-     * @return RESULT_DATA_NONE, INTERFACE_INNER_INVOKE_ERROR, SUCCESS(usageList)
-     */
-    Result getCarPartUsage(Integer repairId) {
+    public Result getCarPartUsage(Integer repairId) {
         Result result = new Result();
         CarpartUsageExample example = new CarpartUsageExample();
         CarpartUsageExample.Criteria criteria = example.createCriteria();
@@ -128,12 +106,7 @@ public class CarPartService {
         return result;
     }
 
-    /**
-     * handle the submit of carpartUsage
-     * @param carpartUsage
-     * @return RESULT_DATA_NONE, INTERFACE_INNER_INVOKE_ERROR, SUCCESS(carpartUsage)
-     */
-    Result submitCarPartUsage(CarpartUsage carpartUsage) {
+    public Result submitCarPartUsage(CarpartUsage carpartUsage) {
         Result result = new Result();
         CarpartInfo carpartInfo;
         Integer amount = 0;

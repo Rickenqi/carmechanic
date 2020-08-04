@@ -1,28 +1,29 @@
 package com.ricky.carmechanic.service;
 
+
 import com.ricky.carmechanic.domain.ClientRepair;
 import com.ricky.carmechanic.util.result.Result;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 @Service
 @Transactional(rollbackFor = DataAccessException.class)
-public interface ClientPaymentService {
+public interface ClientRepairService {
 
     /**
-     * handle the query of client bill
-     * @param registerId
+     * handling the query of client repair with optional params and divided pages
+     * @param clientRepair
+     * @param pageNum
+     * @param pageSize
      * @return
      */
-    Result getClientBill(Integer registerId);
+    Result getClientRepair(ClientRepair clientRepair, int pageNum, int pageSize);
 
     /**
-     * handle the yield of client bill, with repair form input
-     * @param repairList
+     * handle the service of delivering client repair form
+     * @param clientRepair
      * @return
      */
-    Result deliverClientBill(List<ClientRepair> repairList);
+    Result deliverClientRepair(ClientRepair clientRepair);
 }
