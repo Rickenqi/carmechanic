@@ -1,4 +1,6 @@
 package com.ricky.carmechanic.service;
 
-public class CarRepairService {
+public interface CarRepairService {
+
+
 }

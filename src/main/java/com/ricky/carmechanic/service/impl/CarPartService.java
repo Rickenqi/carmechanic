@@ -1,4 +1,4 @@
-package com.ricky.carmechanic.service;
+package com.ricky.carmechanic.service.impl;
 
 import com.github.pagehelper.PageInfo;
 import com.ricky.carmechanic.domain.CarpartInfo;
