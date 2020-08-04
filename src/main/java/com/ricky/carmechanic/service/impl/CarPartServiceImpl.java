@@ -1,5 +1,6 @@
 package com.ricky.carmechanic.service.impl;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.ricky.carmechanic.domain.CarpartInfo;
 import com.ricky.carmechanic.domain.CarpartUsage;
@@ -43,6 +44,8 @@ public class CarPartServiceImpl implements com.ricky.carmechanic.service.CarPart
             if (carpartInfo.getManufacturer() != null)
                 criteria.andManufacturerEqualTo(carpartInfo.getManufacturer());
         }
+        example.or(criteria);
+        PageHelper.startPage(pageNum,pageSize);
         try {
             CarPartList = carpartInfoMapper.selectByExample(example);
             if(CarPartList == null)
