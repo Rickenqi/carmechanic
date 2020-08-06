@@ -25,5 +25,5 @@ public interface ClientRegisterService {
      * @param clientCar
      * @return
      */
-    Result deliverClientRegister(ClientCar clientCar);
+    Result doClientRegister(ClientCar clientCar);
 }

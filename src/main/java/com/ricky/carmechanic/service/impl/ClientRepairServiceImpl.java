@@ -52,9 +52,22 @@ public class ClientRepairServiceImpl implements ClientRepairService {
     }
 
     @Override
-    public Result deliverClientRepair(ClientRepair clientRepair) {
+    public Result doClientRepair(List<ClientRepair> clientRepairList) {
         Result result = new Result();
+        try {
+            clientRepairList.forEach(item -> {
+                // check process
 
+                // repair process
+                // doRepair(item);
+                // persist process
+                clientRepairMapper.insert(item);
+            });
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+        }
+        result.setResultCode(ResultCode.SUCCESS);
         return result;
     }
 }

@@ -7,6 +7,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(rollbackFor = DataAccessException.class)
 public interface ClientRepairService {
@@ -22,8 +24,8 @@ public interface ClientRepairService {
 
     /**
      * handle the service of delivering client repair form
-     * @param clientRepair
+     * @param clientRepairList
      * @return
      */
-    Result deliverClientRepair(ClientRepair clientRepair);
+    Result doClientRepair(List<ClientRepair> clientRepairList);
 }

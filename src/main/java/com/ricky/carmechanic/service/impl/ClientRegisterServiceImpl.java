@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ClientRegisterServiceImpl implements ClientRegisterService {
@@ -56,7 +57,16 @@ public class ClientRegisterServiceImpl implements ClientRegisterService {
     }
 
     @Override
-    public Result deliverClientRegister(ClientCar clientCar) {
-        return null;
+    public Result doClientRegister(ClientCar clientCar) {
+        Result result = new Result();
+        try {
+            clientCar.setRegisterDate(Calendar.getInstance().getTime());
+            clientCarMapper.insert(clientCar);
+        } catch (DataAccessException e) {
+            System.out.println(e);
+            return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
+        }
+        result.setResultCode(ResultCode.SUCCESS);
+        return result;
     }
 }
