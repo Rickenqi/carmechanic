@@ -2,9 +2,15 @@ package com.ricky.carmechanic.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.ricky.carmechanic.domain.CarpartInfo;
+import com.ricky.carmechanic.domain.ClientCar;
 import com.ricky.carmechanic.domain.ClientRepair;
+import com.ricky.carmechanic.domain.MechanicInfo;
 import com.ricky.carmechanic.domain.example.ClientRepairExample;
+import com.ricky.carmechanic.mapper.CarpartInfoMapper;
+import com.ricky.carmechanic.mapper.ClientCarMapper;
 import com.ricky.carmechanic.mapper.ClientRepairMapper;
+import com.ricky.carmechanic.mapper.MechanicInfoMapper;
 import com.ricky.carmechanic.service.ClientRepairService;
 import com.ricky.carmechanic.util.result.Result;
 import com.ricky.carmechanic.util.result.ResultCode;
@@ -12,12 +18,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class ClientRepairServiceImpl implements ClientRepairService {
 
     @Autowired
     ClientRepairMapper clientRepairMapper;
+
+    @Autowired
+    ClientCarMapper clientCarMapper;
+
+    @Autowired
+    MechanicInfoMapper mechanicInfoMapper;
+
+    @Autowired
+    CarpartInfoMapper carpartInfoMapper;
 
     @Override
     public Result getClientRepair(ClientRepair clientRepair, int pageNum, int pageSize) {
@@ -55,14 +71,22 @@ public class ClientRepairServiceImpl implements ClientRepairService {
     public Result doClientRepair(List<ClientRepair> clientRepairList) {
         Result result = new Result();
         try {
-            clientRepairList.forEach(item -> {
+            for (ClientRepair item : clientRepairList) {
                 // check process
-
+                Integer id1 = item.getRegisterId();
+                Integer id2 = item.getMechanicId();
+                Integer id3 = item.getCarpartId();
+                ClientCar obj1 = clientCarMapper.selectByPrimaryKey(id1);
+                MechanicInfo obj2 = mechanicInfoMapper.selectByPrimaryKey(id2);
+                CarpartInfo obj3 = carpartInfoMapper.selectByPrimaryKey(id3);
+                if(obj1 == null || obj2 == null || obj3 == null)
+                    return Result.failure(ResultCode.RESULT_DATA_NONE);
                 // repair process
+                item.setFinishDate(Calendar.getInstance().getTime());
                 // doRepair(item);
                 // persist process
                 clientRepairMapper.insert(item);
-            });
+            }
         } catch (DataAccessException e) {
             System.out.println(e);
             return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
