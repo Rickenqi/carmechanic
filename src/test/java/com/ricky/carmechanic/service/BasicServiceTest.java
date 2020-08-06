@@ -14,13 +14,13 @@ public class BasicServiceTest {
 
     Gson gson = new GsonBuilder().create();
 
-    @BeforeEach
-    void CreateTransactionPoint () {
-        savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
-    }
-
-    @AfterEach
-    void RollbackTransactionPoint() {
-        TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savePoint);
-    }
+//    @BeforeEach
+//    void CreateTransactionPoint () {
+//        savePoint = TransactionAspectSupport.currentTransactionStatus().createSavepoint();
+//    }
+//
+//    @AfterEach
+//    void RollbackTransactionPoint() {
+//        TransactionAspectSupport.currentTransactionStatus().rollbackToSavepoint(savePoint);
+//    }
 }

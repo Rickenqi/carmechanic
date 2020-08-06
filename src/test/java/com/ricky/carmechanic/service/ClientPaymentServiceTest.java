@@ -3,5 +3,7 @@ package com.ricky.carmechanic.service;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class ClientPaymentServiceTest {
+public class ClientPaymentServiceTest extends BasicServiceTest {
+
+
 }

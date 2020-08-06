@@ -2,43 +2,39 @@ package com.ricky.carmechanic.service;
 
 import com.ricky.carmechanic.domain.CarpartInfo;
 import com.ricky.carmechanic.domain.CarpartUsage;
+import com.ricky.carmechanic.service.impl.CarPartServiceImpl;
 import com.ricky.carmechanic.util.result.Result;
 import com.ricky.carmechanic.util.result.ResultCode;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.interceptor.TransactionAspectSupport;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class CarPartServiceTest extends BasicServiceTest {
+public class CarPartServiceTest extends BasicServiceTest{
 
     @Autowired
     CarPartService carPartService;
 
     @Test
     void test1() {
-        CarpartInfo carpartInfo = new CarpartInfo();
-        CarpartUsage carpartUsage = new CarpartUsage();
-        Integer repairId = 0;
-        Integer carPartId = 0;
+        CarpartInfo carpartInfo = new CarpartInfo(); carpartInfo.setManufacturer("宝山钢铁厂");
+        CarpartUsage carpartUsage = new CarpartUsage(); carpartUsage.setRepairId(1); carpartUsage.setCarpartId(2);
+        Integer repairId = 1;
+        Integer carPartId = 1;
         List<Result> results = new ArrayList<>();
         results.add(carPartService.getCarPartInfo(carpartInfo, 1, 50));
         results.add(carPartService.getCarPartUsage(repairId));
-        results.add(carPartService.submitCarPartUsage(carpartUsage));
-        results.add(carPartService.updateCarPartInfo(carpartInfo));
-        results.add(carPartService.deleteCarPartInfo(carPartId));
+        // results.add(carPartService.submitCarPartUsage(carpartUsage));
+        // results.add(carPartService.updateCarPartInfo(carpartInfo));
+        // results.add(carPartService.deleteCarPartInfo(carPartId));
         for (Result item: results) {
             Assert.assertEquals(item.getCode(), ResultCode.SUCCESS);
             System.out.println(gson.toJson(item));
         }
-
     }
-
 
 
 }
