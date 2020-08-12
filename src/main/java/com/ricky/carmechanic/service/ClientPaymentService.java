@@ -8,8 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
-@Transactional(rollbackFor = DataAccessException.class)
 public interface ClientPaymentService {
 
     /**
