@@ -35,7 +35,7 @@ public class MechanicController {
         return gson.toJson(result);
     }
 
-    @PostMapping("/carpart")
+    @PostMapping("/usage")
     String acceptCarPart(@RequestBody CarpartUsage form) {
         Result result = carPartService.submitCarPartUsage(form);
         return gson.toJson(result);
@@ -68,11 +68,16 @@ public class MechanicController {
     @PostMapping("/altercarpart")
     String alterCarPart(@RequestBody Map<String, String> form) {
         CarpartInfo carpartInfo = new CarpartInfo();
-        carpartInfo.setCarpartName(form.get("carpart_name"));
-        carpartInfo.setManufacturer(form.get("manufacturer"));
-        carpartInfo.setCarpartId(Integer.valueOf(form.get("carpartId")));
-        carpartInfo.setCarpartPrice(Integer.valueOf(form.get("carpart_price")));
-        carpartInfo.setReserveAmount(Integer.valueOf(form.get("reserve_amount")));
+        if(form.get("carpart_name")!="")
+            carpartInfo.setCarpartName(form.get("carpart_name"));
+        if(form.get("manufacturer")!="")
+            carpartInfo.setManufacturer(form.get("manufacturer"));
+        if(form.get("carpartId")!="")
+            carpartInfo.setCarpartId(Integer.valueOf(form.get("carpartId")));
+        if(form.get("carpart_price")!="")
+            carpartInfo.setCarpartPrice(Integer.valueOf(form.get("carpart_price")));
+        if(form.get("reserve_amount")!="")
+            carpartInfo.setReserveAmount(Integer.valueOf(form.get("reserve_amount")));
         Result result = carPartService.updateCarPartInfo(carpartInfo);
         return gson.toJson(result);
     }
@@ -132,10 +137,11 @@ public class MechanicController {
     }
 
     @GetMapping("/carrepair")
-    String getCarRepair(@RequestParam Integer id) {
+    String getCarRepair(@RequestParam Integer workerId) {
         ClientRepair clientRepair = new ClientRepair();
-        clientRepair.setRepairId(id);
-        Result result = clientRepairService.getClientRepair(clientRepair, 1, 1);
+        clientRepair.setMechanicId(workerId);
+        Result result = clientRepairService.getClientRepair(clientRepair, 1, 20);
+        System.out.println(gson.toJson(result));
         return gson.toJson(result);
     }
 
