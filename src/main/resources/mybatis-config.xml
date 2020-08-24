@@ -27,9 +27,9 @@
             </transactionManager>
             <dataSource type="UNPOOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://62.234.98.144:3306/carmechanic"/>
+                <property name="url" value="jdbc:mysql://62.234.98.144:3306/carmechanic?useSSL=false&allowPublicKeyRetrieval=true"/>
                 <property name="username" value="root"/>
-                <property name="password" value="root"/>
+                <property name="password" value="qq-1553680641"/>
             </dataSource>
         </environment>
     </environments>
