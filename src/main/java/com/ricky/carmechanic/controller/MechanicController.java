@@ -59,6 +59,12 @@ public class MechanicController {
         return gson.toJson(result);
     }
 
+    @GetMapping("/worker/list")
+    String giveWorker(@RequestBody MechanicInfo worker, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        Result result = mechanicService.getMechanic(worker, pageNum, pageSize);
+        return gson.toJson(result);
+    }
+
     @PostMapping("/altercarpart")
     String alterCarPart(@RequestBody Map<String, String> form) {
         CarpartInfo carpartInfo = new CarpartInfo();
@@ -91,6 +97,17 @@ public class MechanicController {
     @PostMapping("/delmechanic")
     String delMechanic(@RequestParam Integer id_del) {
         Result result = mechanicService.deleteMechanic(id_del);
+        return gson.toJson(result);
+    }
+
+    @PostMapping("/mechanic")
+    String acceptMechanic(@RequestBody Map<String, String> form) {
+        MechanicInfo mechanicInfo = new MechanicInfo();
+        mechanicInfo.setMechanicId(Integer.valueOf(form.get("mechanic_id")));
+        mechanicInfo.setMechanicName(form.get("mechanic_name"));
+        mechanicInfo.setMechanicLv(form.get("mechanic_lv"));
+        mechanicInfo.setMechanicPhone(form.get("mechanic_phone"));
+        Result result = mechanicService.addMechanic(mechanicInfo);
         return gson.toJson(result);
     }
 
