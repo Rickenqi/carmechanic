@@ -86,8 +86,8 @@ public class MechanicController {
     @PostMapping("/altermechanic")
     String alterMechanic(@RequestBody Map<String, String> form) {
         MechanicInfo mechanicInfo = new MechanicInfo();
-        mechanicInfo.setMechanicId(Integer.valueOf(form.get("mechanicId")));
-        mechanicInfo.setMechanicLv(form.get("mechanicLv"));
+        mechanicInfo.setMechanicId(Integer.valueOf(form.get("mechanic_id")));
+        mechanicInfo.setMechanicLv(form.get("mechanic_lv"));
         mechanicInfo.setMechanicName(form.get("mechanic_name"));
         mechanicInfo.setMechanicPhone(form.get("mechanic_phone"));
         Result result = mechanicService.updateMechanic(mechanicInfo);
