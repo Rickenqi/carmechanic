@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -30,8 +31,10 @@ public class MechanicController {
     MechanicService mechanicService;
 
     @PostMapping("/carrepair")
-    String acceptCarRepair(@RequestBody List<ClientRepair> form) {
-        Result result = clientRepairService.doClientRepair(form);
+    String acceptCarRepair(@RequestBody ClientRepair form) {
+        List<ClientRepair> list = new ArrayList<>();
+        list.add(form);
+        Result result = clientRepairService.doClientRepair(list);
         return gson.toJson(result);
     }
 
