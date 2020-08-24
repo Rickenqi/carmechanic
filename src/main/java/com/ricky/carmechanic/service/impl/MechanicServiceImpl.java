@@ -82,15 +82,14 @@ public class MechanicServiceImpl implements MechanicService {
         MechanicInfoExample.Criteria criteria = example.createCriteria();
         // 规则，主键不为空的项（全部）
         criteria.andMechanicIdIsNotNull();
-        // 规则，carpartInfo中存在的规则
         if(mechanicInfo != null) {
             if (mechanicInfo.getMechanicId() != null)
                 criteria.andMechanicIdEqualTo(mechanicInfo.getMechanicId());
-            if (mechanicInfo.getMechanicName() != null)
+            if (! mechanicInfo.getMechanicName().equals(""))
                 criteria.andMechanicNameEqualTo(mechanicInfo.getMechanicName());
-            if (mechanicInfo.getMechanicLv() != null)
+            if (! mechanicInfo.getMechanicLv().equals(""))
                 criteria.andMechanicLvEqualTo(mechanicInfo.getMechanicLv());
-            if (mechanicInfo.getMechanicPhone() != null)
+            if (! mechanicInfo.getMechanicPhone().equals(""))
                 criteria.andMechanicPhoneEqualTo(mechanicInfo.getMechanicPhone());
         }
         example.or(criteria);

@@ -33,15 +33,15 @@ public class ClientRegisterServiceImpl implements ClientRegisterService {
         if(clientCar != null) {
             if(clientCar.getRegisterId() != null)
                 criteria.andRegisterIdEqualTo(clientCar.getRegisterId());
-            if(clientCar.getCarId() != null)
+            if(! clientCar.getCarId().equals(""))
                 criteria.andCarIdEqualTo(clientCar.getCarId());
-            if(clientCar.getCarType() != null)
+            if(! clientCar.getCarType().equals(""))
                 criteria.andCarTypeEqualTo(clientCar.getCarType());
-            if(clientCar.getOwnerName() != null)
+            if(! clientCar.getOwnerName().equals(""))
                 criteria.andOwnerNameEqualTo(clientCar.getOwnerName());
-            if(clientCar.getOwnerEmail() != null)
+            if(! clientCar.getOwnerEmail().equals(""))
                 criteria.andOwnerEmailEqualTo(clientCar.getOwnerEmail());
-            if(clientCar.getOwnerPhone() != null)
+            if(! clientCar.getOwnerPhone().equals(""))
                 criteria.andOwnerEmailEqualTo(clientCar.getOwnerPhone());
         }
         example.or(criteria);

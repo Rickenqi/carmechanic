@@ -39,9 +39,9 @@ public class CarPartServiceImpl implements com.ricky.carmechanic.service.CarPart
         if(carpartInfo != null) {
             if (carpartInfo.getCarpartId() != null)
                 criteria.andCarpartIdEqualTo(carpartInfo.getCarpartId());
-            if (carpartInfo.getCarpartName() != null)
+            if (! carpartInfo.getCarpartName().equals(""))
                 criteria.andCarpartNameEqualTo(carpartInfo.getCarpartName());
-            if (carpartInfo.getManufacturer() != null)
+            if (! carpartInfo.getManufacturer().equals(""))
                 criteria.andManufacturerEqualTo(carpartInfo.getManufacturer());
         }
         example.or(criteria);
