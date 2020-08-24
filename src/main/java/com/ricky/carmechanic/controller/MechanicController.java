@@ -3,10 +3,7 @@ package com.ricky.carmechanic.controller;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ricky.carmechanic.domain.*;
-import com.ricky.carmechanic.service.CarPartService;
-import com.ricky.carmechanic.service.ClientPaymentService;
-import com.ricky.carmechanic.service.ClientRegisterService;
-import com.ricky.carmechanic.service.ClientRepairService;
+import com.ricky.carmechanic.service.*;
 import com.ricky.carmechanic.util.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/mechanic")
+@RequestMapping("")
 public class MechanicController {
 
     Gson gson = new GsonBuilder().create();
@@ -29,6 +26,8 @@ public class MechanicController {
     ClientRegisterService clientRegisterService;
     @Autowired
     ClientRepairService clientRepairService;
+    @Autowired
+    MechanicService mechanicService;
 
     @PostMapping("/carrepair")
     String acceptCarRepair(@RequestBody List<ClientRepair> form) {
@@ -85,15 +84,13 @@ public class MechanicController {
         mechanicInfo.setMechanicLv(form.get("mechanicLv"));
         mechanicInfo.setMechanicName(form.get("mechanic_name"));
         mechanicInfo.setMechanicPhone(form.get("mechanic_phone"));
-        // service is missing
-        Result result = new Result();
+        Result result = mechanicService.updateMechanic(mechanicInfo);
         return gson.toJson(result);
     }
 
     @PostMapping("/delmechanic")
     String delMechanic(@RequestParam Integer id_del) {
-        // service is missing
-        Result result = new Result();
+        Result result = mechanicService.deleteMechanic(id_del);
         return gson.toJson(result);
     }
 
