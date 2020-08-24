@@ -1,6 +1,7 @@
 package com.ricky.carmechanic.domain;
 
 import com.ricky.carmechanic.util.type.BaseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *

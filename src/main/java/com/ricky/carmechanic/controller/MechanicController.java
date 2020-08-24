@@ -42,25 +42,25 @@ public class MechanicController {
     }
 
     @GetMapping("/carpart/list")
-    String giveCarPart(@RequestBody CarpartInfo query, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+    String giveCarPart(CarpartInfo query, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         Result result = carPartService.getCarPartInfo(query,pageNum,pageSize);
         return gson.toJson(result);
     }
 
     @GetMapping("/carregister/list")
-    String giveCarRegister(@RequestBody ClientCar query, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+    String giveCarRegister(ClientCar query, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         Result result = clientRegisterService.getClientCar(query, pageNum, pageSize);
         return gson.toJson(result);
     }
 
     @GetMapping("/carrepair/list")
-    String giveCarRepair(@RequestBody ClientRepair query, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+    String giveCarRepair(ClientRepair query, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         Result result = clientRepairService.getClientRepair(query, pageNum, pageSize);
         return gson.toJson(result);
     }
 
     @GetMapping("/worker/list")
-    String giveWorker(@RequestBody MechanicInfo worker, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+    String giveWorker(MechanicInfo worker, @RequestParam Integer pageNum, @RequestParam Integer pageSize) {
         Result result = mechanicService.getMechanic(worker, pageNum, pageSize);
         return gson.toJson(result);
     }
