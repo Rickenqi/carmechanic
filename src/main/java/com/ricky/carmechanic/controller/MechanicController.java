@@ -32,9 +32,7 @@ public class MechanicController {
 
     @PostMapping("/carrepair")
     String acceptCarRepair(@RequestBody ClientRepair form) {
-        List<ClientRepair> list = new ArrayList<>();
-        list.add(form);
-        Result result = clientRepairService.doClientRepair(list);
+        Result result = clientRepairService.doClientRepair(form);
         return gson.toJson(result);
     }
 
@@ -71,15 +69,15 @@ public class MechanicController {
     @PostMapping("/altercarpart")
     String alterCarPart(@RequestBody Map<String, String> form) {
         CarpartInfo carpartInfo = new CarpartInfo();
-        if(form.get("carpart_name")!="")
+        if(!form.get("carpart_name").equals(""))
             carpartInfo.setCarpartName(form.get("carpart_name"));
-        if(form.get("manufacturer")!="")
+        if(!form.get("manufacturer").equals(""))
             carpartInfo.setManufacturer(form.get("manufacturer"));
-        if(form.get("carpartId")!="")
+        if(!form.get("carpartId").equals(""))
             carpartInfo.setCarpartId(Integer.valueOf(form.get("carpartId")));
-        if(form.get("carpart_price")!="")
+        if(!form.get("carpart_price").equals(""))
             carpartInfo.setCarpartPrice(Integer.valueOf(form.get("carpart_price")));
-        if(form.get("reserve_amount")!="")
+        if(!form.get("reserve_amount").equals(""))
             carpartInfo.setReserveAmount(Integer.valueOf(form.get("reserve_amount")));
         Result result = carPartService.updateCarPartInfo(carpartInfo);
         return gson.toJson(result);
@@ -156,4 +154,9 @@ public class MechanicController {
         return gson.toJson(result);
     }
 
+    @GetMapping("/bill")
+    String getBill(@RequestParam Integer registerId) {
+        Result result = clientPaymentService.getClientBill(registerId);
+        return gson.toJson(result);
+    }
 }

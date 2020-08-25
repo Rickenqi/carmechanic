@@ -71,25 +71,23 @@ public class ClientRepairServiceImpl implements ClientRepairService {
     }
 
     @Override
-    public Result doClientRepair(List<ClientRepair> clientRepairList) {
+    public Result doClientRepair(ClientRepair clientRepair) {
         Result result = new Result();
         try {
-            for (ClientRepair item : clientRepairList) {
-                // check process
-                Integer id1 = item.getRegisterId();
-                Integer id2 = item.getMechanicId();
-                Integer id3 = item.getCarpartId();
-                ClientCar obj1 = clientCarMapper.selectByPrimaryKey(id1);
-                MechanicInfo obj2 = mechanicInfoMapper.selectByPrimaryKey(id2);
-                CarpartInfo obj3 = carpartInfoMapper.selectByPrimaryKey(id3);
-                if(obj1 == null || obj2 == null || obj3 == null)
-                    return Result.failure(ResultCode.RESULT_DATA_NONE);
-                // repair process
-                item.setFinishDate(Calendar.getInstance().getTime());
-                // doRepair(item);
-                // persist process
-                clientRepairMapper.insert(item);
-            }
+            // check process
+            Integer id1 = clientRepair.getRegisterId();
+            Integer id2 = clientRepair.getMechanicId();
+            Integer id3 = clientRepair.getCarpartId();
+            ClientCar obj1 = clientCarMapper.selectByPrimaryKey(id1);
+            MechanicInfo obj2 = mechanicInfoMapper.selectByPrimaryKey(id2);
+            CarpartInfo obj3 = carpartInfoMapper.selectByPrimaryKey(id3);
+            if(obj1 == null || obj2 == null || obj3 == null)
+                return Result.failure(ResultCode.RESULT_DATA_NONE);
+            // repair process
+            clientRepair.setFinishDate(Calendar.getInstance().getTime());
+            // doRepair(item);
+            // persist process
+            clientRepairMapper.insert(clientRepair);
         } catch (DataAccessException e) {
             System.out.println(e);
             return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);

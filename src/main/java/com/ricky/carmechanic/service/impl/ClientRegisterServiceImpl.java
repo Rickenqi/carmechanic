@@ -26,7 +26,7 @@ public class ClientRegisterServiceImpl implements ClientRegisterService {
     @Override
     public Result getClientCar(ClientCar clientCar, int pageNum, int pageSize) {
         Result result = new Result();
-        List<ClientCar> clientCarList = new ArrayList();
+        List<ClientCar> clientCarList;
         ClientCarExample example = new ClientCarExample();
         ClientCarExample.Criteria criteria = example.createCriteria();
         criteria.andRegisterIdIsNotNull();
@@ -42,7 +42,7 @@ public class ClientRegisterServiceImpl implements ClientRegisterService {
             if(! clientCar.getOwnerEmail().equals(""))
                 criteria.andOwnerEmailEqualTo(clientCar.getOwnerEmail());
             if(! clientCar.getOwnerPhone().equals(""))
-                criteria.andOwnerEmailEqualTo(clientCar.getOwnerPhone());
+                criteria.andOwnerPhoneEqualTo(clientCar.getOwnerPhone());
         }
         example.or(criteria);
         PageHelper.startPage(pageNum,pageSize);
