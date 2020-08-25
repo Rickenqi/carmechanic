@@ -94,10 +94,14 @@ public class MechanicController {
     @PostMapping("/altermechanic")
     String alterMechanic(@RequestBody Map<String, String> form) {
         MechanicInfo mechanicInfo = new MechanicInfo();
-        mechanicInfo.setMechanicId(Integer.valueOf(form.get("mechanic_id")));
-        mechanicInfo.setMechanicLv(form.get("mechanic_lv"));
-        mechanicInfo.setMechanicName(form.get("mechanic_name"));
-        mechanicInfo.setMechanicPhone(form.get("mechanic_phone"));
+        if(form.get("mechanic_id")!="")
+            mechanicInfo.setMechanicId(Integer.valueOf(form.get("mechanic_id")));
+        if(form.get("mechanic_lv")!="")
+            mechanicInfo.setMechanicLv(form.get("mechanic_lv"));
+        if(form.get("mechanic_name")!="")
+            mechanicInfo.setMechanicName(form.get("mechanic_name"));
+        if(form.get("mechanic_phone")!="")
+            mechanicInfo.setMechanicPhone(form.get("mechanic_phone"));
         Result result = mechanicService.updateMechanic(mechanicInfo);
         return gson.toJson(result);
     }
