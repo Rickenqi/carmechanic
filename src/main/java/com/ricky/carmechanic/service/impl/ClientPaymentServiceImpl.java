@@ -1,14 +1,13 @@
 package com.ricky.carmechanic.service.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.ricky.carmechanic.domain.CarpartInfo;
 import com.ricky.carmechanic.domain.ClientBill;
 import com.ricky.carmechanic.domain.ClientRepair;
 import com.ricky.carmechanic.domain.example.ClientBillExample;
+import com.ricky.carmechanic.domain.example.ClientRepairExample;
 import com.ricky.carmechanic.mapper.CarpartInfoMapper;
 import com.ricky.carmechanic.mapper.ClientBillMapper;
+import com.ricky.carmechanic.mapper.ClientRepairMapper;
 import com.ricky.carmechanic.service.ClientPaymentService;
 import com.ricky.carmechanic.util.result.Result;
 import com.ricky.carmechanic.util.result.ResultCode;
@@ -17,11 +16,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 @Service
 @Transactional(rollbackFor = DataAccessException.class)
 public class ClientPaymentServiceImpl implements ClientPaymentService {
@@ -30,13 +27,18 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
     ClientBillMapper clientBillMapper;
     @Autowired
     CarpartInfoMapper carpartInfoMapper;
+    @Autowired
+    ClientRepairMapper clientRepairMapper;
 
     @Override
     public Result getClientBill(Integer registerId) {
+        if (isBillExist(registerId)) {
+            makeClientBill(registerId);
+        }
         Result result = new Result();
         ClientBillExample example = new ClientBillExample();
         ClientBillExample.Criteria criteria = example.createCriteria();
-        List<ClientBill> billList = new ArrayList();
+        List<ClientBill> billList;
         criteria.andRegisterIdEqualTo(registerId);
         try{
             billList = clientBillMapper.selectByExample(example);
@@ -52,9 +54,13 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
     }
 
     @Override
-    public Result makeClientBill(Integer registerId, List<ClientRepair> clientRepairList) {
+    public Result makeClientBill(Integer registerId) {
         Result result = new Result();
         ClientBill bill = new ClientBill();
+        ClientRepairExample example = new ClientRepairExample();
+        ClientRepairExample.Criteria criteria = example.createCriteria();
+        criteria.andRegisterIdEqualTo(registerId);
+        List<ClientRepair> clientRepairList = clientRepairMapper.selectByExample(example);
         try {
             bill.setRegisterId(registerId);
             bill.setPayDate(Calendar.getInstance().getTime());
@@ -72,6 +78,16 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
         result.setResultCode(ResultCode.SUCCESS);
         return result;
     }
+
+    private Boolean isBillExist(Integer registerId) {
+        ClientBillExample example = new ClientBillExample();
+        ClientBillExample.Criteria criteria = example.createCriteria();
+        criteria.andRegisterIdEqualTo(registerId);
+        List<ClientBill> billList = clientBillMapper.selectByExample(example);
+        return billList != null;
+    }
+
+
 
     private Integer calPayment(ClientRepair clientRepair) {
         Integer carpartId = clientRepair.getCarpartId();

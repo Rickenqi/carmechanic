@@ -21,8 +21,7 @@ public interface ClientPaymentService {
      * handle the yield of client bill, with repair form input
      *
      * @param registerId
-     * @param clientRepairList
      * @return
      */
-    Result makeClientBill(Integer registerId, List<ClientRepair> clientRepairList);
+    Result makeClientBill(Integer registerId);
 }

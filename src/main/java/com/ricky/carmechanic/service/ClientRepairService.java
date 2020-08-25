@@ -3,11 +3,6 @@ package com.ricky.carmechanic.service;
 
 import com.ricky.carmechanic.domain.ClientRepair;
 import com.ricky.carmechanic.util.result.Result;
-import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 public interface ClientRepairService {
 
@@ -22,8 +17,8 @@ public interface ClientRepairService {
 
     /**
      * handle the service of delivering client repair form
-     * @param clientRepairList
+     * @param clientRepair
      * @return
      */
-    Result doClientRepair(List<ClientRepair> clientRepairList);
+    Result doClientRepair(ClientRepair clientRepair);
 }
