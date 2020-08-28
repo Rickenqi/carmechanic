@@ -6,6 +6,7 @@ import com.ricky.carmechanic.domain.ClientCar;
 import com.ricky.carmechanic.domain.example.ClientCarExample;
 import com.ricky.carmechanic.mapper.ClientCarMapper;
 import com.ricky.carmechanic.service.ClientRegisterService;
+import com.ricky.carmechanic.service.MailService;
 import com.ricky.carmechanic.util.result.Result;
 import com.ricky.carmechanic.util.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -22,6 +24,9 @@ public class ClientRegisterServiceImpl implements ClientRegisterService {
 
     @Autowired
     ClientCarMapper clientCarMapper;
+
+    @Autowired
+    MailService mailService;
 
     @Override
     public Result getClientCar(ClientCar clientCar, int pageNum, int pageSize) {
@@ -65,7 +70,8 @@ public class ClientRegisterServiceImpl implements ClientRegisterService {
         try {
             clientCar.setRegisterDate(Calendar.getInstance().getTime());
             clientCarMapper.insert(clientCar);
-        } catch (DataAccessException e) {
+            mailService.sendMailRegister(clientCar.getOwnerEmail(),clientCar.getOwnerName(), clientCar.getCarId(), clientCar.getRegisterDate().toString());
+        } catch (DataAccessException | MessagingException e) {
             System.out.println(e);
             return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
         }

@@ -2,13 +2,16 @@ package com.ricky.carmechanic.service.impl;
 
 import com.ricky.carmechanic.domain.CarpartInfo;
 import com.ricky.carmechanic.domain.ClientBill;
+import com.ricky.carmechanic.domain.ClientCar;
 import com.ricky.carmechanic.domain.ClientRepair;
 import com.ricky.carmechanic.domain.example.ClientBillExample;
 import com.ricky.carmechanic.domain.example.ClientRepairExample;
 import com.ricky.carmechanic.mapper.CarpartInfoMapper;
 import com.ricky.carmechanic.mapper.ClientBillMapper;
+import com.ricky.carmechanic.mapper.ClientCarMapper;
 import com.ricky.carmechanic.mapper.ClientRepairMapper;
 import com.ricky.carmechanic.service.ClientPaymentService;
+import com.ricky.carmechanic.service.MailService;
 import com.ricky.carmechanic.util.result.Result;
 import com.ricky.carmechanic.util.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.mail.MessagingException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -29,6 +33,10 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
     CarpartInfoMapper carpartInfoMapper;
     @Autowired
     ClientRepairMapper clientRepairMapper;
+    @Autowired
+    ClientCarMapper clientCarMapper;
+    @Autowired
+    MailService mailService;
 
     @Override
     public Result getClientBill(Integer registerId) {
@@ -71,7 +79,9 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
                         .orElse(null)
             );
             clientBillMapper.insert(bill);
-        } catch (DataAccessException e) {
+            ClientCar register = clientCarMapper.selectByPrimaryKey(registerId);
+            mailService.sendMailBill(register.getOwnerEmail(), register.getOwnerName(), register.getCarType());
+        } catch (DataAccessException | MessagingException e) {
             System.out.println(e);
             return Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR);
         }

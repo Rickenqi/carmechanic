@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.ricky.carmechanic.domain.*;
 import com.ricky.carmechanic.service.*;
 import com.ricky.carmechanic.util.result.Result;
+import com.ricky.carmechanic.util.result.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -91,6 +92,7 @@ public class MechanicController {
 
     @PostMapping("/altermechanic")
     String alterMechanic(@RequestBody Map<String, String> form) {
+        System.out.println(gson.toJson(form));
         MechanicInfo mechanicInfo = new MechanicInfo();
         if(form.get("mechanic_id")!="")
             mechanicInfo.setMechanicId(Integer.valueOf(form.get("mechanic_id")));
@@ -160,7 +162,10 @@ public class MechanicController {
 
     @GetMapping("/bill")
     String getBill(@RequestParam Integer registerId) {
-        Result result = clientPaymentService.getClientBill(registerId);
-        return gson.toJson(result);
+        if(registerId != null) {
+            Result result = clientPaymentService.getClientBill(registerId);
+            return gson.toJson(result);
+        }
+        return gson.toJson(Result.failure(ResultCode.INTERFACE_INNER_INVOKE_ERROR));
     }
 }
