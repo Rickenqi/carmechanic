@@ -40,7 +40,7 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
 
     @Override
     public Result getClientBill(Integer registerId) {
-        if (isBillExist(registerId)) {
+        if (! isBillExist(registerId)) {
             makeClientBill(registerId);
         }
         Result result = new Result();
@@ -89,14 +89,14 @@ public class ClientPaymentServiceImpl implements ClientPaymentService {
         return result;
     }
 
+
     private Boolean isBillExist(Integer registerId) {
         ClientBillExample example = new ClientBillExample();
         ClientBillExample.Criteria criteria = example.createCriteria();
         criteria.andRegisterIdEqualTo(registerId);
         List<ClientBill> billList = clientBillMapper.selectByExample(example);
-        return billList != null;
+        return billList.size() != 0;
     }
-
 
 
     private Integer calPayment(ClientRepair clientRepair) {
